@@ -20,6 +20,7 @@ class EventProcessor extends EventEmitter {
         this.guildCache = options.cache.guild;
         this.channelCache = options.cache.channel;
         this.memberCache = options.cache.member;
+        this.messageCache = options.cache.message;
         this.roleCache = options.cache.role;
         this.userCache = options.cache.user;
         this.emojiCache = options.cache.emoji;
@@ -67,6 +68,13 @@ class EventProcessor extends EventEmitter {
                 break;
             case 'CHANNEL_DELETE':
                 await this.onChannelDelete(event);
+                break;
+            case 'MESSAGE_CREATE':
+            case 'MESSAGE_UPDATE':
+                await this.messageCache.update(event.d.id);
+                break;
+            case 'MESSAGE_DELETE':
+                await this.messageCache.remove(event.d.id);
                 break;
             case 'GUILD_MEMBER_ADD':
             case 'GUILD_MEMBER_UPDATE':

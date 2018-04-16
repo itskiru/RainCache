@@ -4,6 +4,7 @@ let GuildCache = require('./cache/GuildCache');
 let ChannelCache = require('./cache/ChannelCache');
 let ChannelMap = require('./cache/ChannelMapCache');
 let MemberCache = require('./cache/MemberCache');
+let MessageCache = require('./cache/MessageCache');
 let UserCache = require('./cache/UserCache');
 let RoleCache = require('./cache/RoleCache');
 let EmojiCache = require('./cache/EmojiCache');
@@ -72,6 +73,7 @@ class RainCache extends EventEmitter {
                 channel: ChannelCache,
                 channelMap: ChannelMap,
                 member: MemberCache,
+                message: MessageCache,
                 user: UserCache,
                 role: RoleCache,
                 emoji: EmojiCache,
@@ -112,6 +114,7 @@ class RainCache extends EventEmitter {
                 channel: this.cache.channel,
                 channelMap: this.cache.channelMap,
                 member: this.cache.member,
+                message: this.cache.message,
                 user: this.cache.user,
                 role: this.cache.role,
                 emoji: this.cache.emoji,
@@ -165,6 +168,10 @@ class RainCache extends EventEmitter {
         if (cacheClasses['member']) {
             let engine = this._getEngine(engines, 'member');
             caches['member'] = new cacheClasses['member'](engine, caches['user']);
+        }
+        if (cacheClasses['message']) {
+            let engine = this._getEngine(engines, 'message');
+            caches['message'] = new cacheClasses['message'](engine);
         }
         if (cacheClasses['presence']) {
             let engine = this._getEngine(engines, 'presence');
